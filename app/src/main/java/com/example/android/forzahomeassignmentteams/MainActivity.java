@@ -43,20 +43,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         linlaHeaderProgress = findViewById(R.id.linlaHeaderProgress);
         mTvHeaderProgress = findViewById(R.id.tvHeaderProgress);
 
-        // Ο Recycler View μου.
+        // My Recycler View.
         teamsRView = findViewById(R.id.teamsRecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         teamsRView.setLayoutManager(layoutManager);
         teamsRView.setHasFixedSize(true);
 
-
+        // Get the data and load RecyclerView.
         fetchData();
 
     }
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     private void fetchData(){
         new FetchTeamsDataTask().execute();
     }
+
+    //region AsyncTask
 
     public class FetchTeamsDataTask extends AsyncTask<Void, Void, String>{
 
@@ -134,13 +137,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public ArrayList<Team> getTeams() {
-        return teams;
-    }
+    //endregion
+
 }
 
 // TODO: Check for internet Connection
-// TODO: Unit testing
 // TODO: User Interface
 // TODO: Options Button (Reload, choose only national | club teams)
 // TODO: Orientation and Responsive Design.

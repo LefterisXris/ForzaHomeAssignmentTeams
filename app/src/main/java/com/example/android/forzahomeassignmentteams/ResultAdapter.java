@@ -35,18 +35,21 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     //endregion
 
+    //region Constructors
+
     public ResultAdapter(Context context, ArrayList<Team> teams){
+
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.teams = teams;
     }
 
 
-
-
     public ResultAdapter(ArrayList<Team> teams){
         this.teams = teams;
     }
+
+    //endregion
 
     // Inflate the layout when viewholder created
     @Override

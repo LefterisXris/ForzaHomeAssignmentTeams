@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -48,7 +49,7 @@ public class NetworkUtils {
     /**
      * Method that creates a http request and gets the response.
      * @param url: The specific url that I want to visit.
-     * @return: The response as a String.
+     * @return: The response as a String. "" empty if any error exists.
      * @throws IOException
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
@@ -61,6 +62,13 @@ public class NetworkUtils {
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
 
+            // Check if any error http code exists.
+          /*  if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_CREATED || urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK)
+                return "";*/
+
+            // Set timeout on 5 seconds.
+//            urlConnection.setConnectTimeout(5000);
+
             boolean hasInput = scanner.hasNext();
             if (hasInput) {
                 return scanner.next();
@@ -68,7 +76,12 @@ public class NetworkUtils {
             else {
                 return null;
             }
-        } finally {
+        }
+        catch (SocketTimeoutException e){
+            System.out.println("Timeout Error.");
+            return "";
+        }
+        finally {
             urlConnection.disconnect();
         }
     }
