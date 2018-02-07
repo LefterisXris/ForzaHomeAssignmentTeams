@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linlaHeaderProgress"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+
+        <TextView
+            android:id="@+id/tvHeaderProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fetching Data..."
+            android:visibility="visible"/>
+
+        <ProgressBar
+            android:id="@+id/pbHeaderProgress"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:visibility="visible" >
+        </ProgressBar>
+
+        <TextView
+            android:id="@+id/error_01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/results_not_found_error_msg"
+            android:textSize="28sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/error_02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/try_another_error_msg"
+            android:textSize="25sp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <!-- MainActivity only got the RecyclerView -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/teamsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

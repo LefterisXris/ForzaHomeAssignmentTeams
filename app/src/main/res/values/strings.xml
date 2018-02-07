@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ForzaHomeAssignmentTeams</string>
+    <string name="results_not_found_error_msg">Error on loading data..</string>
+    <string name="try_another_error_msg">Please try again..</string>
+</resources>
