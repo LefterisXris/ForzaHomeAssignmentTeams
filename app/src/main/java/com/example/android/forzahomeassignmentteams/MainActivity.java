@@ -6,12 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.forzahomeassignmentteams.Teams.Team;
+import com.example.android.forzahomeassignmentteams.Utils.AppStatus;
 import com.example.android.forzahomeassignmentteams.Utils.NetworkUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout linlaHeaderProgress;
     private TextView mTvHeaderProgress;
+    private TextView mTvErorr;
+    private ProgressBar mPbar;
     private RecyclerView teamsRView;
 
     private ArrayList<Team> teams = new ArrayList<>();
@@ -48,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         linlaHeaderProgress = findViewById(R.id.linlaHeaderProgress);
-        mTvHeaderProgress = findViewById(R.id.tvHeaderProgress);
+        mTvHeaderProgress = findViewById(R.id.tvHeaderProgress);//pbHeaderProgress
+        mPbar = findViewById(R.id.pbHeaderProgress);
+        mTvErorr = findViewById(R.id.error_01);
 
         // My Recycler View.
         teamsRView = findViewById(R.id.teamsRecyclerView);
@@ -57,8 +66,19 @@ public class MainActivity extends AppCompatActivity {
         teamsRView.setLayoutManager(layoutManager);
         teamsRView.setHasFixedSize(true);
 
-        // Get the data and load RecyclerView.
-        fetchData();
+        // Check internet connection.
+        if (AppStatus.getInstance(this).isOnline()) {
+
+            // Get the data and load RecyclerView.
+            fetchData();
+        } else {
+            Toast.makeText(this,"You are not online!!!!",Toast.LENGTH_LONG).show();
+            Log.v(TAG, "############################You are not online!!!!");
+
+            // Hide Loader.
+            changeLoaderVisibility(false);
+            mTvHeaderProgress.setText("Check your internet connection...");
+        }
 
     }
 
@@ -68,14 +88,55 @@ public class MainActivity extends AppCompatActivity {
         if (teams.size() == 0)
             fetchData();
         else {
-            resultAdapter = new ResultAdapter(MainActivity.this, teams);
-            teamsRView.setAdapter(resultAdapter);
+            createAndAddRecyclerView();
         }
     }
 
     private void fetchData(){
         new FetchTeamsDataTask().execute();
     }
+
+    //region Options
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Options handling.
+        switch (item.getItemId()){
+            case R.id.action_refresh:
+                //refresh;
+                fetchData();
+                Toast toast = Toast.makeText(this.getBaseContext(), "refreshing...", Toast.LENGTH_LONG );
+                toast.show();
+                break;
+
+            case R.id.addData:
+
+                // Add data multiple times for testing the recycler view.
+                teams.addAll(teams);
+                createAndAddRecyclerView();
+                Toast toast1 = Toast.makeText(this.getBaseContext(), "Adding teams..", Toast.LENGTH_LONG );
+                toast1.show();
+                break;
+
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    //endregion
 
     //region AsyncTask
 
@@ -85,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
 
             // Loader visible.
-            linlaHeaderProgress.setVisibility(View.VISIBLE);
+            changeLoaderVisibility(true);
+
         }
 
         @Override
@@ -116,37 +178,44 @@ public class MainActivity extends AppCompatActivity {
 
             teams = new Gson().fromJson(response, new TypeToken<ArrayList<Team>>(){}.getType());
 
-            // Add data multiple times for testing the recycler view.
-            teams.addAll(teams);
-            teams.addAll(teams);
-            teams.addAll(teams);
-            teams.addAll(teams);
-            teams.addAll(teams);
-            teams.addAll(teams);
-            teams.addAll(teams);
-            teams.addAll(teams);
-
             // Adapter set.
-            resultAdapter = new ResultAdapter(MainActivity.this, teams);
-
-            teamsRView.setAdapter(resultAdapter);
+            createAndAddRecyclerView();
 
             // Hide Loader.
-            linlaHeaderProgress.setVisibility(View.GONE);
-            mTvHeaderProgress.setVisibility(View.GONE);
+            changeLoaderVisibility(false);
         }
     }
 
     //endregion
 
+    private void changeLoaderVisibility(boolean visible){
+
+        if (visible){
+            this.mTvHeaderProgress.setVisibility(View.VISIBLE);
+            this.mPbar.setVisibility(View.VISIBLE);
+            mTvErorr.setVisibility(View.GONE);
+            linlaHeaderProgress.setVisibility(View.VISIBLE);
+        }
+        else{
+            this.mTvHeaderProgress.setVisibility(View.GONE);
+            this.mPbar.setVisibility(View.GONE);
+            mTvErorr.setVisibility(View.GONE);
+            linlaHeaderProgress.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void createAndAddRecyclerView(){
+
+        resultAdapter = new ResultAdapter(MainActivity.this, teams, new ResultAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Team team) {
+                Toast.makeText(MainActivity.this, team.getName() + " Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        teamsRView.setAdapter(resultAdapter);
+
+    }
+
 }
-
-// TODO: Check for internet Connection
-// TODO: User Interface
-// TODO: Options Button (Reload, choose only national | club teams)
-// TODO: Orientation and Responsive Design.
-// TODO: Toast on selection
-// TODO: Check for response codes or timeouts
-// TODO: Comments and code format.
-
-

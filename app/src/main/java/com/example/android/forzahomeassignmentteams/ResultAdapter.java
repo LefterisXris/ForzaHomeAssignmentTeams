@@ -28,8 +28,11 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private TextView teamName;
     private TextView isNational;
     private TextView teamNationality;
-    Team current;
+    private Team current;
     private int currentPos = 0;
+
+    private final OnItemClickListener listener;
+
 
     private ArrayList<Team> teams = new ArrayList<>();
 
@@ -37,16 +40,12 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     //region Constructors
 
-    public ResultAdapter(Context context, ArrayList<Team> teams){
+    public ResultAdapter(Context context, ArrayList<Team> teams, OnItemClickListener listener){
 
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.teams = teams;
-    }
-
-
-    public ResultAdapter(ArrayList<Team> teams){
-        this.teams = teams;
+        this.listener = listener;
     }
 
     //endregion
@@ -72,6 +71,8 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         myHolder.isNational.setText(nat);
         myHolder.teamNationality.setText("" + current.getCountry_name());
 
+        ((MyHolder) holder).bind(current, listener);
+
     }
 
     @Override
@@ -93,54 +94,25 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             isNational = itemView.findViewById(R.id.isNational);
             teamNationality = itemView.findViewById(R.id.teamNationality);
         }
-    }
-    /*
-    @Override
-    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.result_item;
-        LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
+        public void bind(final Team team, final OnItemClickListener listener) {
 
-        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
-//        VH vh = new VH(view, teams.get(0).getName(), teams.get(0).isNational(), teams.get(0).getCountry_name());
-        VH vh = new VH(view);
-        vh.teamName.setText("xaxaxa");
+            itemView.setOnClickListener(new View.OnClickListener() {
 
-        return vh;
-    }*/
+                @Override public void onClick(View v) {
 
+                    listener.onItemClick(team);
 
+                }
 
-    /*
-        Team currentTeam = getItem(position);
-
-        teamName = rView.findViewById(R.id.teamName);
-        isNational = rView.findViewById(R.id.isNational);
-        teamNationality = rView.findViewById(R.id.teamNationality);*/
-
-      class VH extends RecyclerView.ViewHolder{
-
-        TextView teamName;
-        TextView isNational;
-        TextView teamNationality;
-
-        public VH(View itemView) {
-            super(itemView);
+            });
         }
-/*
-        public VH(View itemView, String name, boolean isNationalS, String nationality){
-//            super(itemView);
 
-            teamName = itemView.findViewById(R.id.teamName);
-            isNational = itemView.findViewById(R.id.isNational);
-            teamNationality = itemView.findViewById(R.id.teamNationality);
 
-            teamName.setText(name);
-            isNational.setText(Boolean.toString(isNationalS));
-            teamNationality.setText(nationality);
-        }*/
+    }
+
+    public interface OnItemClickListener{
+          void onItemClick(Team team);
     }
 
 }
