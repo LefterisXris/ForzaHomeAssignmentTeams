@@ -19,6 +19,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Created by Eleftherios Ch. on 7/2/2018.
+ * Software Developer
+ * lefterisxris@gmail.com
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -129,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public ArrayList<Team> getTeams() {
+        return teams;
+    }
 }
 
 // TODO: Check for internet Connection

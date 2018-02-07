@@ -12,7 +12,9 @@ import java.util.Scanner;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Created by Eleftherios Ch. on 5/2/2018.
+ * Created by Eleftherios Ch. on 7/2/2018.
+ * Software Developer
+ * lefterisxris@gmail.com
  */
 
 public class NetworkUtils {
@@ -49,7 +51,7 @@ public class NetworkUtils {
      * @return: The response as a String.
      * @throws IOException
      */
-    public static  String getResponseFromHttpUrl(URL url) throws IOException {
+    public static String getResponseFromHttpUrl(URL url) throws IOException {
 
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 

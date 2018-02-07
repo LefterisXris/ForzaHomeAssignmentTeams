@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Eleftherios Ch. on 7/2/2018.
+ * Software Developer
+ * lefterisxris@gmail.com
  */
 
 public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
