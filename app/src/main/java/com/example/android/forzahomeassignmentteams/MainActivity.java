@@ -108,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
 
             teams = new Gson().fromJson(response, new TypeToken<ArrayList<Team>>(){}.getType());
 
+            // Add data multiple times for testing the recycler view.
+            teams.addAll(teams);
+            teams.addAll(teams);
+            teams.addAll(teams);
+            teams.addAll(teams);
+            teams.addAll(teams);
+            teams.addAll(teams);
+            teams.addAll(teams);
+            teams.addAll(teams);
+
             // Adapter set.
             resultAdapter = new ResultAdapter(MainActivity.this, teams);
 
@@ -120,5 +130,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+// TODO: Check for internet Connection
+// TODO: Unit testing
+// TODO: User Interface
+// TODO: Options Button (Reload, choose only national | club teams)
+// TODO: Orientation and Responsive Design.
+// TODO: Toast on selection
+// TODO: Check for response codes or timeouts
+// TODO: Comments and code format.
 
 
