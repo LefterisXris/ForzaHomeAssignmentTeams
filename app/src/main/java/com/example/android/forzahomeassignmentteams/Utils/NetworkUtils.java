@@ -62,12 +62,12 @@ public class NetworkUtils {
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
 
-            // Check if any error http code exists.
-          /*  if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_CREATED || urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK)
-                return "";*/
+            /*// Check if any error http code exists.
+            if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_CREATED || urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK)
+                return "";
 
             // Set timeout on 5 seconds.
-//            urlConnection.setConnectTimeout(5000);
+            urlConnection.setConnectTimeout(5000);*/
 
             boolean hasInput = scanner.hasNext();
             if (hasInput) {

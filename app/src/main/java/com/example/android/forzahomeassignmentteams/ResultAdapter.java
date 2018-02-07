@@ -58,7 +58,6 @@ public class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return holder;
     }
 
-
     // Bind data
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {

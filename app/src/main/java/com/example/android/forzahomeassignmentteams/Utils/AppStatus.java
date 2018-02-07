@@ -21,6 +21,8 @@ public class AppStatus {
     private NetworkInfo wifiInfo, mobileInfo;
     private boolean connected = false;
 
+    //endregion
+
     public static AppStatus getInstance(Context ctx) {
 
         context = ctx.getApplicationContext();
